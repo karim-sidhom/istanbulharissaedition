@@ -14,8 +14,8 @@
 
 <div id="intro">
   <video autoplay muted loop playsinline>
-    <source src="https://videos.pexels.com/video-files/4782133/4782133-uhd_2560_1440_25fps.mp4" type="video/mp4">
-    <source src="https://videos.pexels.com/video-files/4782133/4782133-hd_1920_1080_25fps.mp4" type="video/mp4">
+    <source src="https://videos.pexels.com/video-files/12762155/12762155-uhd_2560_1440_25fps.mp4" type="video/mp4">
+    <source src="https://videos.pexels.com/video-files/7304302/7304302-uhd_2732_1440_30fps.mp4" type="video/mp4">
   </video>
   <div id="intro-overlay">
     <h2>⚜️ IMPERIAL ISTANBUL ⚜️</h2>
@@ -44,9 +44,9 @@
 </div>
 <div class="foot">⚜️ IMPERIAL ISTANBUL - TUNISIAN EDITION - LORD SIDHOM I 2026</div>
 <div class="currency-float" id="currencyWidget">
-  <h4>🇹🇳 TND → TRY 🇹🇷</h4>
-  <input type="number" id="tndInput" placeholder="Dinars TND" oninput="convert()" min="0">
-  <div class="result" id="tryResult">—</div>
+  <h4>🇹🇳 TND ⇄ TRY 🇹🇷</h4>
+  <input type="number" id="tndInput" placeholder="Dinars TND" oninput="convertFromTND()" min="0">
+  <input type="number" id="tryInput" placeholder="Lires TRY" oninput="convertFromTRY()" min="0">
   <div class="rate" id="rateInfo">Chargement taux...</div>
 </div>
 <div class="essential-float"><a href="https://essential.kieda.online" target="_blank">⚜️ essential.kieda.online</a></div><div class="mics-float"><button class="micbtn" id="micTN"><span>🎤</span><small>TN</small></button><button class="micbtn" id="micTR"><span>🎤</span><small>TR</small></button></div>
@@ -70,7 +70,8 @@ function gpsAuto(){if(!leafMap)return;document.getElementById('modeInfo').textCo
 function initMap(){leafMap=L.map('map').setView([41.0082,28.9784],13);L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap',maxZoom:19}).addTo(leafMap);leafMap.on('moveend',function(){const c=leafMap.getCenter();document.getElementById('modeInfo').textContent='🗺️ Résultats autour de: '+c.lat.toFixed(4)+', '+c.lng.toFixed(4);showResults(c.lat,c.lng)});gpsAuto()}
 let tndRate=null;
 async function fetchRate(){try{const r=await fetch('https://api.exchangerate-api.com/v4/latest/TND');const d=await r.json();tndRate=d.rates.TRY;document.getElementById('rateInfo').textContent='1 TND = '+tndRate.toFixed(2)+' TRY'}catch(e){tndRate=11.2;document.getElementById('rateInfo').textContent='1 TND ≈ '+tndRate.toFixed(2)+' TRY'}}
-function convert(){const v=parseFloat(document.getElementById('tndInput').value);if(!v||!tndRate){document.getElementById('tryResult').textContent='—';return}document.getElementById('tryResult').textContent=(v*tndRate).toFixed(2)+' TRY'}
+function convertFromTND(){const v=parseFloat(document.getElementById('tndInput').value);if(!v||!tndRate){document.getElementById('tryInput').value='';return}document.getElementById('tryInput').value=(v*tndRate).toFixed(2)}
+function convertFromTRY(){const v=parseFloat(document.getElementById('tryInput').value);if(!v||!tndRate){document.getElementById('tndInput').value='';return}document.getElementById('tndInput').value=(v/tndRate).toFixed(2)}
 fetchRate();
-document.getElementById('micTN').onclick=()=>alert('TN');document.getElementById('micTR').onclick=()=>alert('TR');
+document.getElementById('micTN').onclick=()=>window.open('https://moutarjem.kieda.online/','_blank');document.getElementById('micTR').onclick=()=>window.open('https://moutarjem.kieda.online/','_blank');
 </script></body></html>
